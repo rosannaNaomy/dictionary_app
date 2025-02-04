@@ -93,7 +93,7 @@ object WordInfoModule {
 
     @Provides
     @Singleton
-    fun provideGetSuggestedWordsUseCase(repository: WordSuggestionRepository): GetSuggestedWords {
+    fun provideGetSuggestedWordsUseCase(repository: WordInfoRepository): GetSuggestedWords {
         return GetSuggestedWords(repository)
     }
 

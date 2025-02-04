@@ -5,12 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dictionaryapp.core.util.NetworkState
+import com.example.dictionaryapp.feature_dictionary.domain.use_cases.GetSuggestedWords
 import com.example.dictionaryapp.feature_dictionary.domain.use_cases.GetWordInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -19,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WordInfoViewModel @Inject constructor(
-    private val getWordInfo: GetWordInfo
+    private val getWordInfo: GetWordInfo,
+    private val getSuggestedWords: GetSuggestedWords
 ) : ViewModel() {
 
     private val _searchQuery = mutableStateOf("")
@@ -31,7 +34,24 @@ class WordInfoViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UIEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private val _suggestions = mutableStateOf<List<String>>(emptyList())
+    val suggestions: State<List<String>> = _suggestions
+
     private var searchJob: Job? = null
+
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(500L)
+
+            getSuggestedWords(query).collectLatest { result ->
+                if (result is NetworkState.Success) {
+                    _suggestions.value = result.data
+                }
+            }
+        }
+    }
 
     fun onSearch(query: String) {
         _searchQuery.value = query
