@@ -1,5 +1,6 @@
 package com.example.dictionaryapp.feature_dictionary.presentation
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import com.example.dictionaryapp.core.util.NetworkState
 import com.example.dictionaryapp.feature_dictionary.domain.use_cases.GetSuggestedWords
 import com.example.dictionaryapp.feature_dictionary.domain.use_cases.GetWordInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import javax.inject.Inject
 
@@ -43,15 +46,31 @@ class WordInfoViewModel @Inject constructor(
         _searchQuery.value = query
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(500L)
+            delay(300L) // ✅ Faster response when typing
+
+            Log.d("ViewModel", "Fetching suggestions for: $query")
 
             getSuggestedWords(query).collectLatest { result ->
-                if (result is NetworkState.Success) {
-                    _suggestions.value = result.data
+                when (result) {
+                    is NetworkState.Success -> {
+                        Log.d("ViewModel", "Received suggestions: ${result.data}")
+                        withContext(Dispatchers.Main) {
+                            _suggestions.value = result.data // ✅ Ensures UI recomposes
+                        }
+                    }
+
+                    is NetworkState.Error -> {
+                        Log.e("ViewModel", "Error fetching suggestions: ${result.message}")
+                    }
+
+                    is NetworkState.Loading -> {
+                        Log.d("ViewModel", "Loading suggestions...")
+                    }
                 }
             }
         }
     }
+
 
     fun onSearch(query: String) {
         _searchQuery.value = query
@@ -73,9 +92,11 @@ class WordInfoViewModel @Inject constructor(
                                 wordInfoItems = emptyList(),
                                 isLoading = false
                             )
-                            _eventFlow.emit(UIEvent.ShowSnackBar(
-                                result.message ?: "Unknown error"
-                            ))
+                            _eventFlow.emit(
+                                UIEvent.ShowSnackBar(
+                                    result.message ?: "Unknown error"
+                                )
+                            )
                         }
 
                         is NetworkState.Loading -> {

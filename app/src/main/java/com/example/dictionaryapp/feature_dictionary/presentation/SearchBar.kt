@@ -1,5 +1,6 @@
 package com.example.dictionaryapp.feature_dictionary.presentation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -25,19 +27,23 @@ fun SearchBar(viewModel: WordInfoViewModel) {
         OutlinedTextField(
             value = viewModel.searchQuery.value,
             onValueChange = { query ->
+                Log.d("SearchBar", "User typed: $query")
                 viewModel.onSearchQueryChanged(query) // ✅ Fetch suggestions
                 isDropdownExpanded = query.isNotEmpty() // ✅ Show dropdown when typing
+                Log.d("SearchBar", "Dropdown expanded: $isDropdownExpanded")
             },
             modifier = Modifier.fillMaxWidth().padding(top = 60.dp),
             placeholder = { Text(text = "Search...") }
         )
 
+        Log.d("SearchBar", "Suggestions count: ${suggestions.size}")
         DropdownMenu(
             expanded = isDropdownExpanded && suggestions.isNotEmpty(),
             onDismissRequest = { isDropdownExpanded = false },
             modifier = Modifier.fillMaxWidth()
         ) {
             suggestions.forEach { word ->
+                Log.d("SearchBar", "Showing suggestion: $word")
                 DropdownMenuItem(
                     text = { Text(word) }, // ✅ Explicitly pass text
                     onClick = {
@@ -59,4 +65,5 @@ fun SearchBar(viewModel: WordInfoViewModel) {
 //        placeholder = { Text(text = "Search...") }
 //    )
 //}
+
 

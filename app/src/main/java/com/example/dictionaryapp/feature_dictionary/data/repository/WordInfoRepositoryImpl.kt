@@ -51,7 +51,7 @@ class WordInfoRepositoryImpl(
             val requestBody = ChatRequestBody(
                 model = "gpt-3.5-turbo",
                 messages = listOf(
-                    Message(role = "user", content = "List common English words related to \"$query\".")
+                    Message(role = "user", content = "List common English words that start with \"$query\".")
                 ),
                 temperature = 0.0,
                 maxTokens = 50
