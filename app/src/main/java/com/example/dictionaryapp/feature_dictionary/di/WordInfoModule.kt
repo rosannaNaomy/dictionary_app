@@ -2,6 +2,7 @@ package com.example.dictionaryapp.feature_dictionary.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.dictionaryapp.BuildConfig
 import com.example.dictionaryapp.feature_dictionary.data.local.WordInfoDatabase
 import com.example.dictionaryapp.feature_dictionary.data.local.converters.Converters
 import com.example.dictionaryapp.feature_dictionary.data.remote.DictionaryApi
@@ -31,20 +32,11 @@ object WordInfoModule {
         return GetWordInfo(repository)
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideWordInfoRepository(
-//        db: WordInfoDatabase,
-//        api: DictionaryApi
-//    ): WordInfoRepository {
-//        return WordInfoRepositoryImpl(api, db.dao)
-//    }
-
     @Provides
     @Singleton
     fun provideMoshiParser(): MoshiParser {
         val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())  // Add this line for Kotlin support
+            .add(KotlinJsonAdapterFactory())
             .build()
         return MoshiParser(moshi)
     }
@@ -72,14 +64,14 @@ object WordInfoModule {
     @Singleton
     fun provideOpenAIService(moshiParser: MoshiParser): OpenAIService {
         return Retrofit.Builder()
-            .baseUrl("https://api.openai.com/v1/")  // OpenAI base URL
+            .baseUrl("https://api.openai.com/v1/")
             .addConverterFactory(MoshiConverterFactory.create(moshiParser.moshi))
             .build()
             .create(OpenAIService::class.java)
     }
 
 
-    private const val APIKEY = "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"
+    private const val APIKEY = BuildConfig.API_KEY
     @Provides
     @Singleton
     fun provideWordRepository(

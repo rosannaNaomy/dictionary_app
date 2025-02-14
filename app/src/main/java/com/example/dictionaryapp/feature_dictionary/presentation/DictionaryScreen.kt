@@ -28,10 +28,9 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun DictionaryScreen() {
     val viewModel: WordInfoViewModel = hiltViewModel()
-    val state = viewModel.state.value // ✅ Uses updated ViewModel state
+    val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // ✅ Collect UI events (such as error messages)
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
@@ -59,12 +58,12 @@ fun MainContent(state: WordInfoState, viewModel: WordInfoViewModel) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            SearchBar(viewModel = viewModel) // ✅ Search input at the top
+            SearchBar(viewModel = viewModel)
             Spacer(modifier = Modifier.height(16.dp))
 
             when {
                 state.isLoading -> {
-                    // ✅ Show a loading spinner while fetching data
+
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -73,7 +72,7 @@ fun MainContent(state: WordInfoState, viewModel: WordInfoViewModel) {
                     }
                 }
                 state.wordInfoItems.isEmpty() && state.isLoading.not() -> {
-                    // ✅ Show "No results found" if no words are available
+
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -82,7 +81,7 @@ fun MainContent(state: WordInfoState, viewModel: WordInfoViewModel) {
                     }
                 }
                 else -> {
-                    // ✅ Show the list of word definitions
+
                     WordList(wordInfoItems = state.wordInfoItems)
                 }
             }
@@ -90,51 +89,4 @@ fun MainContent(state: WordInfoState, viewModel: WordInfoViewModel) {
     }
 }
 
-//@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
-//@Composable
-//fun DictionaryScreen() {
-//    val viewModel: WordInfoViewModel = hiltViewModel()
-//    val state = viewModel.state.value
-//    val snackbarHostState = remember { SnackbarHostState() }
-//
-//    LaunchedEffect(key1 = true) {
-//        viewModel.eventFlow.collectLatest { event ->
-//            when (event) {
-//                is WordInfoViewModel.UIEvent.ShowSnackBar -> {
-//                    snackbarHostState.showSnackbar(
-//                        message = event.message
-//                    )
-//                }
-//            }
-//        }
-//    }
-//
-//    Scaffold(
-//        snackbarHost = { SnackbarHost(snackbarHostState) }
-//    ) {
-//        MainContent(state = state, viewModel = viewModel)
-//    }
-//}
-//
-//@Composable
-//fun MainContent(state: WordInfoState, viewModel: WordInfoViewModel) {
-//    Box(
-//        modifier = Modifier
-//            .background(MaterialTheme.colorScheme.background)
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(16.dp)
-//        ) {
-//            SearchBar(viewModel = viewModel)
-//            Spacer(modifier = Modifier.height(16.dp))
-//            WordList(wordInfoItems = state.wordInfoItems)
-//        }
-//
-//        if (state.isLoading) {
-//            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-//        }
-//    }
-//}
 

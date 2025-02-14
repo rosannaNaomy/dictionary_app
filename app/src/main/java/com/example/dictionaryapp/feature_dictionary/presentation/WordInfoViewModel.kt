@@ -46,7 +46,7 @@ class WordInfoViewModel @Inject constructor(
         _searchQuery.value = query
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(300L) // ✅ Faster response when typing
+            delay(300L)
 
             Log.d("ViewModel", "Fetching suggestions for: $query")
 
@@ -55,7 +55,7 @@ class WordInfoViewModel @Inject constructor(
                     is NetworkState.Success -> {
                         Log.d("ViewModel", "Received suggestions: ${result.data}")
                         withContext(Dispatchers.Main) {
-                            _suggestions.value = result.data // ✅ Ensures UI recomposes
+                            _suggestions.value = result.data
                         }
                     }
 

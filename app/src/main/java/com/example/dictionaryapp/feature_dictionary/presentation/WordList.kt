@@ -19,7 +19,6 @@ import com.example.dictionaryapp.feature_dictionary.domain.model.WordInfo
 @Composable
 fun WordList(wordInfoItems: List<WordInfo>) {
     if (wordInfoItems.isEmpty()) {
-        // ✅ Show a message when there are no results
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -33,9 +32,9 @@ fun WordList(wordInfoItems: List<WordInfo>) {
     } else {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp) // ✅ Consistent spacing
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(wordInfoItems.size) { index ->  // ✅ Correctly iterating with index
+            items(wordInfoItems.size) { index ->
                 val wordInfo = wordInfoItems[index]
                 WordInfoItem(wordInfo = wordInfo)
                 Divider()
@@ -45,19 +44,4 @@ fun WordList(wordInfoItems: List<WordInfo>) {
     }
 }
 
-//@Composable
-//fun WordList(wordInfoItems: List<WordInfo>) {
-//    LazyColumn(modifier = Modifier.fillMaxSize()) {
-//        items(wordInfoItems.size) { i ->
-//            val wordInfo = wordInfoItems[i]
-//            if (i > 0) {
-//                Spacer(modifier = Modifier.height(8.dp))
-//            }
-//            WordInfoItem(wordInfo = wordInfo)  // Passing the WordInfo data to WordInfoItem composable
-//            if (i < wordInfoItems.size - 1) {
-//                Divider()
-//            }
-//        }
-//    }
-//}
 

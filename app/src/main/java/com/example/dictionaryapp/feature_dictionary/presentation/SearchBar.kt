@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchBar(viewModel: WordInfoViewModel) {
-    val suggestions by viewModel.suggestions // ✅ Observe suggestions state
+    val suggestions by viewModel.suggestions
     var isDropdownExpanded by remember { mutableStateOf(false) }
 
     Column {
@@ -28,8 +28,8 @@ fun SearchBar(viewModel: WordInfoViewModel) {
             value = viewModel.searchQuery.value,
             onValueChange = { query ->
                 Log.d("SearchBar", "User typed: $query")
-                viewModel.onSearchQueryChanged(query) // ✅ Fetch suggestions
-                isDropdownExpanded = query.isNotEmpty() // ✅ Show dropdown when typing
+                viewModel.onSearchQueryChanged(query)
+                isDropdownExpanded = query.isNotEmpty()
                 Log.d("SearchBar", "Dropdown expanded: $isDropdownExpanded")
             },
             modifier = Modifier.fillMaxWidth().padding(top = 60.dp),
@@ -45,10 +45,10 @@ fun SearchBar(viewModel: WordInfoViewModel) {
             suggestions.forEach { word ->
                 Log.d("SearchBar", "Showing suggestion: $word")
                 DropdownMenuItem(
-                    text = { Text(word) }, // ✅ Explicitly pass text
+                    text = { Text(word) },
                     onClick = {
-                        viewModel.onSearch(word) // ✅ Fetch word definition when selected
-                        isDropdownExpanded = false // ✅ Close dropdown
+                        viewModel.onSearch(word)
+                        isDropdownExpanded = false
                     }
                 )
             }
@@ -56,14 +56,5 @@ fun SearchBar(viewModel: WordInfoViewModel) {
     }
 }
 
-//@Composable
-//fun SearchBar(viewModel: WordInfoViewModel) {
-//    TextField(
-//        value = viewModel.searchQuery.value,
-//        onValueChange = viewModel::onSearch,
-//        modifier = Modifier.fillMaxWidth().padding(top = 60.dp),
-//        placeholder = { Text(text = "Search...") }
-//    )
-//}
 
 
