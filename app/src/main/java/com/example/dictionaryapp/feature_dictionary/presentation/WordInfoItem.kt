@@ -1,5 +1,6 @@
 package com.example.dictionaryapp.feature_dictionary.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,22 +13,25 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dictionaryapp.R
 import com.example.dictionaryapp.feature_dictionary.domain.model.WordInfo
 
 @Composable
@@ -38,11 +42,12 @@ fun WordInfoItem(
     val cardBackgroundColor = MaterialTheme.colorScheme.surface
     val scrollState = rememberScrollState()
     val isScrollable = scrollState.maxValue > 0
+    var isBookmarked by remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier
             .padding(8.dp)
-            .width(300.dp),
+            .width(350.dp),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.elevatedCardElevation(),
         colors = CardDefaults.cardColors(containerColor = cardBackgroundColor)
@@ -85,19 +90,19 @@ fun WordInfoItem(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-
             IconButton(
-                onClick = {}, // No functionality yet
+                onClick = { isBookmarked = !isBookmarked },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
             ) {
-                Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Save word",
-                    tint = Color.Red
+                Image(
+                    painter = painterResource(
+                        id = if (isBookmarked) R.drawable.bookmark_filled
+                        else R.drawable.bookmark_outlined
+                    ),
+                    contentDescription = if (isBookmarked) "Saved" else "Save word"
                 )
             }
-
             if (isScrollable) {
                 Box(
                     modifier = Modifier
