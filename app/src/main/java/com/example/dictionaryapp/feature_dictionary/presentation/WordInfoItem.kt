@@ -47,7 +47,7 @@ fun WordInfoItem(
     Card(
         modifier = modifier
             .padding(8.dp)
-            .width(350.dp),
+            .width(340.dp),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.elevatedCardElevation(),
         colors = CardDefaults.cardColors(containerColor = cardBackgroundColor)

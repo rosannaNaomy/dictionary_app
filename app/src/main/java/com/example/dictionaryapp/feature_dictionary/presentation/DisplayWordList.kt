@@ -49,7 +49,7 @@ fun DisplayWordList(state: WordInfoState) {
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "No results found, try searching a new word",
+                        text = "No results yet, try searching a new word",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Gray
                     )
