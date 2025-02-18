@@ -15,24 +15,24 @@ class Converters(
 
     @TypeConverter
     fun fromMeaningList(meanings: List<Meaning>?): String? {
-        return meanings?.let { jsonParser.toJson(it, listType) } // Serialize List<Meaning> to JSON
+        return meanings?.let { jsonParser.toJson(it, listType) }
     }
 
     @TypeConverter
     fun toMeaningList(json: String?): List<Meaning>? {
-        return json?.let { jsonParser.fromJson(it, listType) } // Deserialize JSON to List<Meaning>
+        return json?.let { jsonParser.fromJson(it, listType) }
     }
 
     private val stringListType = Types.newParameterizedType(List::class.java, String::class.java)
 
     @TypeConverter
     fun fromStringList(value: List<String>?): String {
-        return jsonParser.toJson(value, stringListType) ?: "[]" // Serialize List<String> to JSON
+        return jsonParser.toJson(value, stringListType) ?: "[]"
     }
 
     @TypeConverter
     fun toStringList(json: String?): List<String> {
-        return json?.let { jsonParser.fromJson(it, stringListType) } ?: emptyList() // Deserialize JSON to List<String>
+        return json?.let { jsonParser.fromJson(it, stringListType) } ?: emptyList()
     }
 
 }

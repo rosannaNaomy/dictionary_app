@@ -27,7 +27,7 @@ class WordInfoRepositoryImpl(
     private val apiKey: String
 ) : WordInfoRepository {
 
-    override fun getWordInfo(word: String): Flow<NetworkState<List<WordInfo>>>  = flow { //Flow<NetworkState> ??
+    override fun getWordInfo(word: String): Flow<NetworkState<List<WordInfo>>>  = flow {
         emit(NetworkState.Loading)
         val wordInfo = wordInfoDao.getWordInfo(word).map { it.toWordInfo() }
         if (wordInfo.isEmpty()) {
@@ -45,7 +45,7 @@ class WordInfoRepositoryImpl(
             return@flow
         }
 
-        emit(NetworkState.Loading) // Show loading indicator
+        emit(NetworkState.Loading)
 
         try {
             val requestBody = ChatRequestBody(
@@ -75,7 +75,7 @@ class WordInfoRepositoryImpl(
 
     private suspend fun fetchRemote(
         word: String
-    ): NetworkState<List<WordInfo>> { //NetworkState ??
+    ): NetworkState<List<WordInfo>> {
         try {
             val remoteWordInfo = dictionaryApi.getWordInfo(word)
             wordInfoDao.deleteWordInfo(remoteWordInfo.map { it.word })

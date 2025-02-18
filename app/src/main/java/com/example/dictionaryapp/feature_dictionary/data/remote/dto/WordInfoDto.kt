@@ -8,7 +8,7 @@ data class WordInfoDto(
     val meanings: List<MeaningDto>,
     @Json(name = "phonetic")
     val phonetic: String,
-    val phonetics: List<PhoneticDto>,
+    val phonetics: List<PhoneticDto>?,
     val word: String
 ){
     fun toWordInfoEntity(): WordInfoEntity{

@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-//    id("kotlin-kapt")
 }
 
 android {
@@ -68,34 +67,16 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-//    implementation(libs.androidx.compose.ui)
-//    implementation(libs.androidx.compose.runtime)
-//    implementation(libs.androidx.compose.foundation)
-//    implementation(libs.androidx.compose.material)
-//    implementation(libs.androidx.compose.compiler)
-
     implementation(libs.bundles.coroutines)
-//    implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.moshi)
     implementation(libs.bundles.okhttp)
     implementation(libs.io.coil.kt)
 
-//    // Hilt (Dagger)
-//    implementation(libs.hilt)
-//    kapt(libs.hiltCompiler)
-//
-//    // Room Database
-//    implementation(libs.roomRuntime)
-//    kapt(libs.roomCompiler)
-//    implementation(libs.roomKtx)
-//
-
     // Hilt
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.android.compiler)
     ksp(libs.dagger.hilt.compiler)
-//    // Hilt Navigation Compose (optional)
     implementation(libs.hiltNavigationCompose)
 
     // Room
