@@ -1,4 +1,4 @@
-package com.example.dictionaryapp.feature_dictionary.presentation
+package com.example.dictionaryapp.feature_dictionary.presentation.saved_words
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
