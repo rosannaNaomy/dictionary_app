@@ -68,7 +68,6 @@ class WordInfoViewModel @Inject constructor(
         }
     }
 
-
     fun onSearch(query: String) {
         _searchQuery.value = query
         searchJob?.cancel()
