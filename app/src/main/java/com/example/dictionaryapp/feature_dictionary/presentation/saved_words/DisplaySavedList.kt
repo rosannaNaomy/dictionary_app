@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,6 +73,11 @@ fun DisplaySavedList(
                     SavedWordItem(
                         word = savedWord.word,
                         onRemove = { onToggleSave(savedWord.toWordInfo()) }
+                    )
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = Color.Gray.copy(alpha = 0.3f),
+                        thickness = 1.dp
                     )
                 }
             }

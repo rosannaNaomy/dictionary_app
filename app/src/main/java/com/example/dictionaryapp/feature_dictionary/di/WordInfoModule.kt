@@ -2,6 +2,8 @@ package com.example.dictionaryapp.feature_dictionary.di
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.dictionaryapp.BuildConfig
 import com.example.dictionaryapp.feature_dictionary.data.local.FavoriteWordDao
 import com.example.dictionaryapp.feature_dictionary.data.local.WordInfoDatabase
@@ -84,6 +86,7 @@ object WordInfoModule {
 
 
     private const val APIKEY = BuildConfig.API_KEY
+
     @Provides
     @Singleton
     fun provideWordRepository(
@@ -92,7 +95,13 @@ object WordInfoModule {
         openAIService: OpenAIService
     ): WordInfoRepository {
         val apiKey = APIKEY
-        return WordInfoRepositoryImpl(api, openAIService, db.wordInfoDao(), db.wordSuggestionDao(), apiKey)
+        return WordInfoRepositoryImpl(
+            api,
+            openAIService,
+            db.wordInfoDao(),
+            db.wordSuggestionDao(),
+            apiKey
+        )
     }
 
     @Provides
