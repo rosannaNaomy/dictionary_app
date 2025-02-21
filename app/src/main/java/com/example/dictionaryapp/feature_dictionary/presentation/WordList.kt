@@ -12,14 +12,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.dictionaryapp.core.util.SavedState
 import com.example.dictionaryapp.feature_dictionary.domain.model.WordInfo
 
 @Composable
-fun WordList(word: String, wordInfoItems: List<WordInfo>) {
+fun WordList(
+    word: String,
+    wordInfoItems: List<WordInfo>,
+    isWordSavedState : SavedState<Boolean>,
+    onToggleSave: (WordInfo) -> Unit,
+    onCheckIfSaved: (String) -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -43,8 +51,15 @@ fun WordList(word: String, wordInfoItems: List<WordInfo>) {
             horizontalArrangement = Arrangement.Center
         ) {
             items(wordInfoItems) { wordInfo ->
+                LaunchedEffect(wordInfo.word) {
+                    onCheckIfSaved(wordInfo.word)
+                }
+                val isSaved = isWordSavedState is SavedState.Success && isWordSavedState.data
+
                 WordInfoItem(
-                    wordInfo = wordInfo
+                    wordInfo = wordInfo,
+                    isSaved = isSaved,
+                    onToggleSave = { onToggleSave(wordInfo) }
                 )
             }
         }
