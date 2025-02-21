@@ -9,21 +9,27 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.dictionaryapp.feature_dictionary.presentation.saved_words.SavedViewModel
+import com.example.dictionaryapp.feature_dictionary.presentation.saved_words.SavedWordsScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DictionaryScreen() {
     val viewModel: WordInfoViewModel = hiltViewModel()
+    val savedViewModel: SavedViewModel = hiltViewModel()
+
     val state = viewModel.state.value
     val searchQuery by viewModel.searchQuery
     val suggestions by viewModel.suggestions
+    val isWordSavedState by savedViewModel.isWordSavedState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     var selectedTab by remember { mutableStateOf(0) }
 
@@ -55,8 +61,11 @@ fun DictionaryScreen() {
                     state = state,
                     searchQuery = searchQuery,
                     suggestions = suggestions,
+                    isWordSavedState = isWordSavedState,
                     onSearchQueryChanged = viewModel::onSearchQueryChanged,
-                    onSearch = viewModel::onSearch
+                    onSearch = viewModel::onSearch,
+                    onToggleSave = savedViewModel::toggleWord,
+                    onCheckIfSaved = savedViewModel::checkIfWordIsSaved
                 )
             } else {
                 SavedWordsScreen()

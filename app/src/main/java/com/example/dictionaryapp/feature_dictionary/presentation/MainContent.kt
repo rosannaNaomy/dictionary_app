@@ -17,14 +17,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import com.example.dictionaryapp.core.util.SavedState
+import com.example.dictionaryapp.feature_dictionary.domain.model.WordInfo
 
 @Composable
 fun MainContent(
     state: WordInfoState,
     searchQuery: String,
     suggestions: List<String>,
+    isWordSavedState: SavedState<Boolean>,
     onSearchQueryChanged: (String) -> Unit,
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit,
+    onToggleSave: (WordInfo) -> Unit,
+    onCheckIfSaved: (String) -> Unit
 ) {
     var isDropdownExpanded by rememberSaveable { mutableStateOf(false) }
 
@@ -49,7 +54,12 @@ fun MainContent(
                 },
             )
             Spacer(modifier = Modifier.height(16.dp))
-            DisplayWordList(state)
+            DisplayWordList(
+                state,
+                isWordSavedState,
+                onToggleSave,
+                onCheckIfSaved
+            )
         }
 
         DropdownMenuOverlay(

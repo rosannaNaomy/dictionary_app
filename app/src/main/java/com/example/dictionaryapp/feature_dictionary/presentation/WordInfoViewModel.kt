@@ -48,29 +48,25 @@ class WordInfoViewModel @Inject constructor(
         searchJob = viewModelScope.launch {
             delay(300L)
 
-            Log.d("ViewModel", "Fetching suggestions for: $query")
-
             getSuggestedWords(query).collectLatest { result ->
                 when (result) {
                     is NetworkState.Success -> {
-                        Log.d("ViewModel", "Received suggestions: ${result.data}")
                         withContext(Dispatchers.Main) {
                             _suggestions.value = result.data
                         }
                     }
 
                     is NetworkState.Error -> {
-                        Log.e("ViewModel", "Error fetching suggestions: ${result.message}")
+                        Log.e("DropdownDebug", "Error fetching suggestions: ${result.message}")
                     }
 
                     is NetworkState.Loading -> {
-                        Log.d("ViewModel", "Loading suggestions...")
+                        Log.d("DropdownDebug", "Loading suggestions...")
                     }
                 }
             }
         }
     }
-
 
     fun onSearch(query: String) {
         _searchQuery.value = query
@@ -94,7 +90,7 @@ class WordInfoViewModel @Inject constructor(
                             )
                             _eventFlow.emit(
                                 UIEvent.ShowSnackBar(
-                                    result.message ?: "Unknown error"
+                                    result.message
                                 )
                             )
                         }

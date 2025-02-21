@@ -37,6 +37,8 @@ import com.example.dictionaryapp.feature_dictionary.domain.model.WordInfo
 @Composable
 fun WordInfoItem(
     wordInfo: WordInfo,
+    isSaved: Boolean,
+    onToggleSave: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val cardBackgroundColor = MaterialTheme.colorScheme.surface
@@ -91,13 +93,13 @@ fun WordInfoItem(
                 }
             }
             IconButton(
-                onClick = { isBookmarked = !isBookmarked },
+                onClick = { onToggleSave() },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
             ) {
                 Image(
                     painter = painterResource(
-                        id = if (isBookmarked) R.drawable.bookmark_filled
+                        id = if (isSaved) R.drawable.bookmark_filled
                         else R.drawable.bookmark_outlined
                     ),
                     contentDescription = if (isBookmarked) "Saved" else "Save word"
