@@ -7,7 +7,7 @@ import com.squareup.moshi.Json
 data class WordInfoDto(
     val meanings: List<MeaningDto>,
     @Json(name = "phonetic")
-    val phonetic: String,
+    val phonetic: String?,
     val phonetics: List<PhoneticDto>?,
     val word: String
 ){
