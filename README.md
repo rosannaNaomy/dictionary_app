@@ -6,7 +6,7 @@ This is a personalized dictionary app designed for an engaging and educational w
 <img width="381" alt="Screenshot 2025-02-20 at 11 53 23 PM" src="https://github.com/user-attachments/assets/54d3ad11-9f12-425f-ae7a-fff131e32544" />
 <img width="381" alt="Screenshot 2025-02-20 at 11 58 50 PM" src="https://github.com/user-attachments/assets/d32f060f-0aad-48ba-ba5f-acde61dff875" />
 <img width="381" alt="Screenshot 2025-02-20 at 11 59 59 PM" src="https://github.com/user-attachments/assets/debc56ff-a89e-409f-9531-e7d718492c44" />
-![Image](https://github.com/user-attachments/assets/1890f4c2-dc54-46e4-9c2c-3280499eec6d)
+
 
 ## Features
 - **Search & Definitions**: Users can search for words and view their definitions.
